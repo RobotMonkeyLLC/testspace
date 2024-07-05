@@ -19,7 +19,7 @@ const bubbleSort = (arr) => {
         let index = 0;
         while (index < wall) {
           //compare the adjacent positions, if the right one is bigger, we have to swap
-          if (arr[index] > arr[index + 1]) { 
+          if (arr[index].value > arr[index + 1].value) { 
             let aux = arr[index]; 
             arr[index] = arr[index + 1];
             arr[index + 1] = aux;
@@ -49,7 +49,7 @@ function createCard(hand, cardText=deck[Math.floor(Math.random() * deck.length)]
 }
 
 function cardValue(card){
-    let value = card.innerHTML.split(" ")[0];
+    let value = card.querySelector(".card-value").innerHTML;
     if(value == "A"){
         return 1;
     }else if(value == "J"){
@@ -62,23 +62,37 @@ function cardValue(card){
         return parseInt(value);
     }
 }
+function cardSuite(card){
+    return card.querySelector(".card-suit").innerHTML;
+}
+
+function stepToHand(step){
+    for(let i = 0; i < step.length; i++){
+        createCard(document.getElementById("logs"), step[i].value + " of " + step[i].suite);
+    }
+}
+
 function sort(){
     let hand = document.getElementById("hand");
     let cards = hand.childNodes;
     let handValues = [];
     for(let i = 0; i < cards.length; i++){
-        let value = cardValue(cards[i]);
-        handValues.push(value);
+        //console.log(cards[i]);
+        let card = {value: cardValue(cards[i]), suite: cardSuite(cards[i])};
+        handValues.push(card);
     }
     let sortSteps = bubbleSort(handValues);
     let log = document.getElementById("logs");
+    console.log(sortSteps);
     log.innerHTML = "";
     for(let i = 0; i < sortSteps.length; i++){
         let step = document.createElement("div");
-        step.innerHTML = sortSteps[i];
+        console.log(stepToHand(sortSteps[i]));
+        step.innerHTML = stepToHand(sortSteps[i]);
+
         log.appendChild(step);
     }
-    console.log(sortSteps);
+    //console.log(sortSteps);
 }
 
 function draw(){
@@ -87,7 +101,7 @@ function draw(){
         hand.innerHTML = "";
     }
     let x = document.getElementById("card-input");
-    console.log(x.value)
+    //console.log(x.value)
     for(let i = 0; i < x.value; i++){
         createCard(document.getElementById("hand"));
     }
