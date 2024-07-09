@@ -83,7 +83,7 @@ function sort(){
     }
     let sortSteps = bubbleSort(handValues);
     let log = document.getElementById("logs");
-    console.log(sortSteps);
+    console.log(handValues);
     log.innerHTML = "";
     for(let i = 0; i < sortSteps.length; i++){
         let step = document.createElement("div");
